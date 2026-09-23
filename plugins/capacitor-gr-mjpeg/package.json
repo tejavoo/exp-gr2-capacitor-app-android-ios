@@ -1,0 +1,25 @@
+{
+  "name": "capacitor-gr-mjpeg",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Capacitor plugin: native MJPEG viewer that parses and decodes frames off the JS bridge and draws them under a transparent web view.",
+  "license": "MIT",
+  "main": "src/index.ts",
+  "module": "src/index.ts",
+  "types": "src/index.ts",
+  "files": [
+    "src/",
+    "android/src/main/",
+    "android/build.gradle",
+    "ios/Sources",
+    "Package.swift",
+    "CapacitorGrMjpeg.podspec"
+  ],
+  "capacitor": {
+    "ios": { "src": "ios" },
+    "android": { "src": "android" }
+  },
+  "peerDependencies": {
+    "@capacitor/core": ">=8.0.0"
+  }
+}

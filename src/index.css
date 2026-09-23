@@ -1,0 +1,197 @@
+@import "tailwindcss";
+
+@theme {
+  --color-cam-bg:      #0b0b0d;
+  --color-cam-surface: #131316;
+  --color-cam-card:    #1c1c20;
+  --color-cam-hover:   #25252a;
+  --color-cam-border:  #2b2b31;
+  --color-cam-accent:  #ff6a13;
+  --color-cam-accent2: #ff8a3d;
+  --color-cam-green:   #3ecf6e;
+  --color-cam-red:     #ff4d4f;
+  --color-cam-yellow:  #f0b429;
+  --color-cam-blue:    #5aa9ff;
+  --color-cam-text:    #ededf0;
+  --color-cam-muted:   #9b9ba4;
+  --color-cam-dim:     #5d5d66;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
+body {
+  background: var(--color-cam-bg);
+  color: var(--color-cam-text);
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+  font-size: 14px;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+button { font: inherit; color: inherit; cursor: pointer; }
+button:disabled { cursor: not-allowed; }
+button:focus-visible, select:focus-visible, input:focus-visible {
+  outline: 2px solid var(--color-cam-accent);
+  outline-offset: 2px;
+}
+
+.tnum { font-variant-numeric: tabular-nums; }
+.safe-top    { padding-top: var(--safe-area-inset-top, env(safe-area-inset-top)); }
+.safe-bottom { padding-bottom: var(--safe-area-inset-bottom, env(safe-area-inset-bottom)); }
+.safe-x      { padding-left: var(--safe-area-inset-left, env(safe-area-inset-left)); padding-right: var(--safe-area-inset-right, env(safe-area-inset-right)); }
+
+/* Native viewfinder: the MJPEG view is a native layer UNDER the web view. While it runs,
+   the page must be transparent where the picture is. Every other region paints its own
+   background, so only the viewfinder area shows through. */
+html.native-live,
+html.native-live body,
+html.native-live #root,
+html.native-live .app-root,
+html.native-live .viewfinder-shell { background: transparent !important; }
+.h-screen-dvh { height: 100%; } /* html/body/#root are 100%; no dvh (old web views drop it) */
+
+/* Scroll areas */
+.panel-scroll {
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-cam-border) transparent;
+  -webkit-overflow-scrolling: touch;
+}
+.panel-scroll::-webkit-scrollbar { width: 6px; }
+.panel-scroll::-webkit-scrollbar-thumb { background: var(--color-cam-border); border-radius: 3px; }
+.no-scrollbar { scrollbar-width: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
+
+/* Value chips (exposure strip) */
+.chip {
+  flex: none;
+  min-width: 48px;
+  height: 36px;
+  padding: 0 12px;
+  border-radius: 999px;
+  border: 1px solid var(--color-cam-border);
+  background: var(--color-cam-card);
+  color: var(--color-cam-muted);
+  font-size: 13px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  transition: background .12s, color .12s, border-color .12s, transform .08s;
+}
+.chip:hover:not(:disabled) { background: var(--color-cam-hover); color: var(--color-cam-text); }
+.chip:active:not(:disabled) { transform: scale(.96); }
+.chip[data-active="true"] { background: var(--color-cam-accent); border-color: var(--color-cam-accent); color: #fff; }
+.chip:disabled { opacity: .35; }
+
+/* Segmented control */
+.seg { display: flex; gap: 2px; padding: 2px; border-radius: 10px; background: var(--color-cam-bg); border: 1px solid var(--color-cam-border); }
+.seg button {
+  flex: 1 1 0;
+  min-height: 32px;
+  padding: 0 6px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-cam-muted);
+  white-space: nowrap;
+  transition: background .12s, color .12s;
+}
+.seg button:hover:not(:disabled) { color: var(--color-cam-text); }
+.seg button[data-active="true"] { background: var(--color-cam-card); color: var(--color-cam-text); box-shadow: 0 0 0 1px var(--color-cam-accent) inset; }
+.seg button:disabled { opacity: .4; }
+
+/* Selects */
+select.cam-select {
+  appearance: none;
+  background-color: var(--color-cam-bg);
+  border: 1px solid var(--color-cam-border);
+  color: var(--color-cam-text);
+  min-height: 36px;
+  padding: 6px 30px 6px 10px;
+  border-radius: 10px;
+  font-size: 13px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%239b9ba4'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  cursor: pointer;
+  width: 100%;
+}
+select.cam-select:focus { outline: none; border-color: var(--color-cam-accent); }
+select.cam-select:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* Generic buttons */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  min-height: 36px; padding: 0 14px; border-radius: 10px;
+  font-size: 13px; font-weight: 600;
+  background: var(--color-cam-card); border: 1px solid var(--color-cam-border); color: var(--color-cam-text);
+  transition: background .12s, transform .08s;
+}
+.btn:hover:not(:disabled) { background: var(--color-cam-hover); }
+.btn:active:not(:disabled) { transform: scale(.97); }
+.btn:disabled { opacity: .4; }
+.btn-primary { background: var(--color-cam-accent); border-color: var(--color-cam-accent); color: #fff; }
+.btn-primary:hover:not(:disabled) { background: var(--color-cam-accent2); }
+.btn-ghost { background: transparent; border-color: transparent; color: var(--color-cam-muted); }
+.btn-ghost:hover:not(:disabled) { background: var(--color-cam-card); color: var(--color-cam-text); }
+
+/* Hardware-style key (buttons panel) */
+.key {
+  display: flex; align-items: center; justify-content: center;
+  min-width: 48px; min-height: 48px; border-radius: 12px;
+  background: var(--color-cam-card); border: 1px solid var(--color-cam-border);
+  color: var(--color-cam-text); font-size: 12px; font-weight: 700; letter-spacing: .02em;
+  transition: background .1s, transform .08s;
+}
+.key:hover:not(:disabled) { background: var(--color-cam-hover); }
+.key:active:not(:disabled) { transform: scale(.94); background: var(--color-cam-accent); color: #fff; }
+.key:disabled { opacity: .35; }
+
+/* Section label */
+.label {
+  font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+  color: var(--color-cam-dim);
+}
+
+/* Viewfinder HUD text */
+.hud { text-shadow: 0 1px 2px rgba(0,0,0,.9); }
+
+/* Shutter */
+@keyframes shutter-flash {
+  0%   { box-shadow: 0 0 0 0 rgba(255,106,19,.65); }
+  100% { box-shadow: 0 0 0 18px rgba(255,106,19,0); }
+}
+.shutter-active { animation: shutter-flash .5s ease-out; }
+@keyframes held-pulse { 0%,100% { opacity: 1 } 50% { opacity: .45 } }
+.held-pulse { animation: held-pulse 1.2s ease-in-out infinite; }
+
+/* Frame flash on capture */
+@keyframes capture-flash { from { opacity: .55 } to { opacity: 0 } }
+.capture-flash { animation: capture-flash .35s ease-out forwards; }
+
+/* Focus bracket */
+@keyframes focus-ring {
+  0%   { transform: translate(-50%,-50%) scale(1.5); opacity: 0; }
+  40%  { opacity: 1; }
+  100% { transform: translate(-50%,-50%) scale(1); opacity: 1; }
+}
+.focus-indicator { animation: focus-ring .3s ease-out forwards; }
+
+/* Toasts */
+@keyframes toast-in {
+  from { transform: translateY(-8px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+.toast-enter { animation: toast-in .18s ease-out; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}

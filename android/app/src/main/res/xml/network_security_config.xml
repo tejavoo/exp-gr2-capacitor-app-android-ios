@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  The GR II only speaks plain HTTP (http://192.168.0.1). This app talks to nothing else,
+  so cleartext is allowed app-wide; that also covers a custom camera address set in the menu.
+  Tighten to a <domain-config> for 192.168.0.1 if the app ever talks to the internet.
+-->
+<network-security-config>
+    <base-config cleartextTrafficPermitted="true" />
+</network-security-config>

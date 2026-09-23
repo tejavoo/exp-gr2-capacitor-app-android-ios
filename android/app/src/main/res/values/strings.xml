@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">GR Remote</string>
+    <string name="title_activity_main">GR Remote</string>
+    <string name="package_name">com.grremote.gr2</string>
+    <string name="custom_url_scheme">com.grremote.gr2</string>
+</resources>
