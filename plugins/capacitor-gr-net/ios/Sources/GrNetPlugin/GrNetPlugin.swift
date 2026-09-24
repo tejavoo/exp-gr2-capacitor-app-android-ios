@@ -31,7 +31,7 @@ public class GrNetPlugin: CAPPlugin, CAPBridgedPlugin {
     }()
 
     private let pathMonitor = NWPathMonitor()
-    private var currentPath: NWPath?
+    private var currentPath: Network.NWPath?
 
     override public func load() {
         pathMonitor.pathUpdateHandler = { [weak self] path in self?.currentPath = path }
