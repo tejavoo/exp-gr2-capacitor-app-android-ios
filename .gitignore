@@ -38,3 +38,5 @@ xcuserdata/
 .DS_Store
 .idea/
 .vscode/
+
+.opencode/
